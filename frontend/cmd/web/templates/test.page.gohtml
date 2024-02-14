@@ -1,0 +1,40 @@
+{{template "header" .}}
+
+{{template "content" .}}
+
+
+{{define "content"}}
+
+<div class="py-12 flex justify-center">
+    <div class="px-8 py-8 bg-white rounded shadow">
+
+    <div class="">
+        <div class="flex-grow">
+            <h1 class="mt-5 border-b border-gray-400">Test Microservices</h1>
+            <hr>
+            <div class="mt-5 p-2 border border-gray-400">
+                <span>Output shows here...</span>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-row space-x-4">
+        <div class="grow">
+            <h4 class="mt-5">Sent</h4>
+            <div class="mt-1 p-2 border border-gray-400">
+                <pre>                    <span>Nothing sent yet...</span>
+                </pre>
+            </div>
+        </div>
+        <div class="grow">
+            <h4 class="mt-5">Received</h4>
+            <div class="mt-1 p-2 border border-gray-400">
+                <pre>                    <span>Nothing Received yet...</span>
+                </pre>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{{end}}
+
+{{template "footer" .}}
