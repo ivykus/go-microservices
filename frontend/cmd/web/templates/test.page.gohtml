@@ -1,6 +1,8 @@
 {{template "header" .}}
 
 {{template "content" .}}
+{{template "js" .}}
+{{template "footer" .}}
 
 
 {{define "content"}}
@@ -11,8 +13,14 @@
     <div class="">
         <div class="flex-grow">
             <h1 class="mt-5 border-b border-gray-400">Test Microservices</h1>
-            <hr>
-            <div class="mt-5 p-2 border border-gray-400">
+            <a id="brokerBtn" class="
+                        py-1 px-2
+                        bg-cyan-200 hover:bg-cyan-400 
+                        border border-cyan-900
+                        text-xs text-cyan-900
+                        rounded" 
+             href="javascript:void(0);">Test Broker</a>
+            <div id="output" class="mt-5 p-2 border border-gray-400">
                 <span>Output shows here...</span>
             </div>
         </div>
@@ -21,14 +29,14 @@
         <div class="grow">
             <h4 class="mt-5">Sent</h4>
             <div class="mt-1 p-2 border border-gray-400">
-                <pre>                    <span>Nothing sent yet...</span>
+                <pre id="payload"><span>Nothing sent yet...</span>
                 </pre>
             </div>
         </div>
         <div class="grow">
             <h4 class="mt-5">Received</h4>
             <div class="mt-1 p-2 border border-gray-400">
-                <pre>                    <span>Nothing Received yet...</span>
+                <pre id="received"><span>Nothing Received yet...</span>
                 </pre>
             </div>
         </div>
@@ -37,4 +45,37 @@
 </div>
 {{end}}
 
-{{template "footer" .}}
+{{define "js"}}
+    <script>
+        let brokerBtn = document.getElementById("brokerBtn");
+        let output = document.getElementById("output");
+        let sent = document.getElementById("payload");
+        let received = document.getElementById("received");
+
+        brokerBtn.addEventListener("click", function() {
+            const body = {
+                method: 'POST',
+            }
+
+            fetch("http:\/\/localhost:8080", body)
+            .then((response) => response.json())
+            .then((data) => {
+                sent.innerHTML = "empty post request";
+                received.innerHTML = JSON.stringify(data, undefined, 4);
+                if (data.error) {
+                    console.log(data.message);
+                } else {
+                    console.log("at least" + data.message)
+                    output.innerHTML = `<br><strong>Response from broker service</strong>: ${data.message}`;
+                }
+            })
+            .catch((error) => {
+                output.innerHTML = "<br><br>Error: " + error;
+            })
+        })
+
+
+
+    </script>
+{{end}}
+
